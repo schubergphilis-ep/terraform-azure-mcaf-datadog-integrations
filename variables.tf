@@ -85,8 +85,8 @@ variable "key_vault" {
 variable "key_vault_secrets_names" {
   description = "The names of the secrets stored in the Key Vault"
   type = object({
-    datadog_api_key_name  = string
-    datadog_app_key_name  = string
+    datadog_api_key_name = string
+    datadog_app_key_name = string
   })
 }
 
