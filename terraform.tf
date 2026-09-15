@@ -3,7 +3,7 @@ terraform {
   required_providers {
     datadog = {
       source  = "datadog/datadog"
-      version = "~> 3.59"
+      version = "~> 4.0"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -11,11 +11,15 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.53.1"
+      version = "~> 3.9"
     }
     time = {
       source  = "hashicorp/time"
-      version = ">=0.13"
+      version = "~> 0.14"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.8.1"
     }
   }
 }

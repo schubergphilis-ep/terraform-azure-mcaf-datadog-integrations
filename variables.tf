@@ -4,15 +4,21 @@ variable "datadog_organization_name" {
   type        = string
 }
 
+# The variables below are for Datadog
+variable "datadog_url" {
+  description = "The Datadog organization name"
+  type        = string
+}
+
 variable "datadog_integration_azure_config" {
   description = "Datadog Azure Integration config"
   type = object({
-    host_filters             = string
-    app_service_plan_filters = string
-    container_app_filters    = string
-    automute                 = bool
-    cspm_enabled             = bool
-    custom_metrics_enabled   = bool
+    host_filters             = optional(string, "")
+    app_service_plan_filters = optional(string, "")
+    container_app_filters    = optional(string, "")
+    automute                 = optional(bool, false)
+    cspm_enabled             = optional(bool, false)
+    custom_metrics_enabled   = optional(bool, false)
   })
 }
 
@@ -34,6 +40,7 @@ variable "opsgenie_integration" {
     region      = string
     secret_name = string
   }))
+  default = []
 }
 
 # The variables below are for the integration of Datadog with Slack
@@ -63,31 +70,9 @@ variable "slack_integration_monitoring" {
   default = null
 }
 
-# Azure
-variable "subscription_id" {
-  description = "Azure subscription id"
+variable "integration_monitored_scope" {
+  description = "Tenant root Azure management group ID"
   type        = string
-}
-
-variable "tenant_root_management_group_name" {
-  description = "Tenant root Azure management group name"
-  type        = string
-}
-
-variable "key_vault" {
-  description = "The properties of the Key Vault to be used to store secrets"
-  type = object({
-    name                = string
-    resource_group_name = string
-  })
-}
-
-variable "key_vault_secrets_names" {
-  description = "The names of the secrets stored in the Key Vault"
-  type = object({
-    datadog_api_key_name  = string
-    datadog_app_key_name  = string
-  })
 }
 
 # Entra ID
@@ -125,18 +110,11 @@ variable "saml_notification_email_addresses" {
   default = [""]
 }
 variable "saml_assigned_groups" {
-  type        = list(string)
+  type        = set(string)
   description = "List of Azure Entra ID group display names to assign to the Enterprise Application"
+  default = []
 }
 
-variable "path_to_ddog_icon" {
-  type        = string
-  description = "Path to the Datadog icon file"
-  default     = "/dd_icon_rgb.png"
-}
-
-variable "datadog_site_name" {
-  description = "Datadog site name"
-  type        = string
-  default     = "datadoghq.eu"
+variable "owners" {
+  type = set(string)
 }

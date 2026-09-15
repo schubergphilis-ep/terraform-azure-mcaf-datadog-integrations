@@ -1,29 +1,7 @@
-data "azurerm_client_config" "current" {}
+data "azuread_application_published_app_ids" "well_known" {}
 
-data "azurerm_management_group" "this" {
-  name = var.tenant_root_management_group_name
-}
-
-data "azurerm_key_vault" "this" {
-  name                = var.key_vault.name
-  resource_group_name = var.key_vault.resource_group_name
-}
-
-data "azurerm_key_vault_secret" "datadog_api_key" {
-  name         = var.key_vault_secrets_names.datadog_api_key_name
-  key_vault_id = data.azurerm_key_vault.this.id
-}
-
-data "azurerm_key_vault_secret" "datadog_app_key" {
-  name         = var.key_vault_secrets_names.datadog_app_key_name
-  key_vault_id = data.azurerm_key_vault.this.id
-}
-
-data "azurerm_key_vault_secret" "opsgenie_api_key" {
-  for_each = { for idx, opsgenie_integration in var.opsgenie_integration : idx => opsgenie_integration }
-
-  name         = each.value.secret_name
-  key_vault_id = data.azurerm_key_vault.this.id
+data "azuread_service_principal" "msgraph" {
+  client_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
 }
 
 data "datadog_permissions" "current" {
@@ -31,6 +9,6 @@ data "datadog_permissions" "current" {
 }
 
 data "azuread_group" "sso_groups" {
-  for_each     = toset(var.saml_assigned_groups)
+  for_each     = var.saml_assigned_groups
   display_name = each.key
 }

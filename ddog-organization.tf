@@ -1,6 +1,5 @@
 
 resource "datadog_organization_settings" "organization" {
-  #depends_on = [azuread_service_principal.datadog_saml_auth_enterprise_application]
   name = var.datadog_organization_name
   settings {
     saml {
