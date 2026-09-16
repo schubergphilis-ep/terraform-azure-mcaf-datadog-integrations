@@ -1,6 +1,6 @@
 resource "azuread_application" "application" {
   display_name = "datadog-monitoring"
-  owners = var.owners
+  owners       = var.owners
   required_resource_access {
     resource_app_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
     resource_access {
@@ -41,15 +41,15 @@ resource "azurerm_role_assignment" "datadog" {
 }
 
 resource "datadog_integration_azure" "this" {
-  tenant_name              = var.integration_monitored_scope
-  client_id                = azuread_application.application.client_id
-  client_secret            = azuread_application_password.app_password.value
-  host_filters             = join(",", var.datadog_integration_azure_config.host_filter_tags)
-  app_service_plan_filters = join(",", var.datadog_integration_azure_config.app_service_plan_filter_tags)
-  container_app_filters    = join(",", var.datadog_integration_azure_config.container_app_filter_tags)
-  automute                 = var.datadog_integration_azure_config.automute
-  cspm_enabled             = var.datadog_integration_azure_config.cspm_enabled
-  custom_metrics_enabled   = var.datadog_integration_azure_config.custom_metrics_enabled
+  tenant_name                 = var.integration_monitored_scope
+  client_id                   = azuread_application.application.client_id
+  client_secret               = azuread_application_password.app_password.value
+  host_filters                = join(",", var.datadog_integration_azure_config.host_filter_tags)
+  app_service_plan_filters    = join(",", var.datadog_integration_azure_config.app_service_plan_filter_tags)
+  container_app_filters       = join(",", var.datadog_integration_azure_config.container_app_filter_tags)
+  automute                    = var.datadog_integration_azure_config.automute
+  cspm_enabled                = var.datadog_integration_azure_config.cspm_enabled
+  custom_metrics_enabled      = var.datadog_integration_azure_config.custom_metrics_enabled
   metrics_enabled             = true
   metrics_enabled_default     = true
   usage_metrics_enabled       = true

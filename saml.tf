@@ -1,5 +1,5 @@
 resource "random_uuid" "saml_uuids" {
-  for_each = toset(["oauth", "user", "group" , "msiam"])
+  for_each = toset(["oauth", "user", "group", "msiam"])
 }
 
 resource "azuread_application" "datadog_saml_auth_application_registration" {
