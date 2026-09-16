@@ -13,6 +13,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "~> 3.9"
     }
+    msgraph = {
+      source  = "microsoft/msgraph"
+      version = "0.5.0"
+    }
     time = {
       source  = "hashicorp/time"
       version = "~> 0.14"
