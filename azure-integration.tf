@@ -35,18 +35,18 @@ resource "azuread_application_password" "app_password" {
 }
 
 resource "azurerm_role_assignment" "datadog" {
-  scope                = var.integration_monitored_scope
+  scope                = var.datadog_integration_azure_config.monitored_scope
   role_definition_name = "Monitoring Reader"
-  principal_id         = azuread_service_principal.spn.id
+  principal_id         = azuread_service_principal.spn.object_id
 }
 
 resource "datadog_integration_azure" "this" {
-  tenant_name                 = var.integration_monitored_scope
+  tenant_name                 = var.datadog_integration_azure_config.tenant_name
   client_id                   = azuread_application.application.client_id
   client_secret               = azuread_application_password.app_password.value
-  host_filters                = join(",", var.datadog_integration_azure_config.host_filter_tags)
-  app_service_plan_filters    = join(",", var.datadog_integration_azure_config.app_service_plan_filter_tags)
-  container_app_filters       = join(",", var.datadog_integration_azure_config.container_app_filter_tags)
+  host_filters                = join(",", var.datadog_integration_azure_config.host_filters)
+  app_service_plan_filters    = join(",", var.datadog_integration_azure_config.app_service_plan_filters)
+  container_app_filters       = join(",", var.datadog_integration_azure_config.container_app_filters)
   automute                    = var.datadog_integration_azure_config.automute
   cspm_enabled                = var.datadog_integration_azure_config.cspm_enabled
   custom_metrics_enabled      = var.datadog_integration_azure_config.custom_metrics_enabled

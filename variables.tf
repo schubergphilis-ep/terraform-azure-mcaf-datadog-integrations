@@ -13,9 +13,11 @@ variable "datadog_url" {
 variable "datadog_integration_azure_config" {
   description = "Datadog Azure Integration config"
   type = object({
-    host_filters             = optional(string, "")
-    app_service_plan_filters = optional(string, "")
-    container_app_filters    = optional(string, "")
+    tenant_name              = string
+    monitored_scope          = string
+    host_filters             = optional(list(string), [])
+    app_service_plan_filters = optional(list(string), [])
+    container_app_filters    = optional(list(string), [])
     automute                 = optional(bool, false)
     cspm_enabled             = optional(bool, false)
     custom_metrics_enabled   = optional(bool, false)
@@ -27,7 +29,6 @@ variable "datadog_teams" {
   type = map(
     object({
       description = string
-      name        = string
     })
   )
   default = {}
@@ -69,11 +70,6 @@ variable "slack_integration_monitoring" {
     display_tags     = bool
   })
   default = null
-}
-
-variable "integration_monitored_scope" {
-  description = "Tenant root Azure management group ID"
-  type        = string
 }
 
 # Entra ID

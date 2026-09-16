@@ -18,4 +18,5 @@ resource "datadog_organization_settings" "organization" {
     private_widget_share        = false
     saml_autocreate_access_role = var.saml_autocreate_access_role
   }
+  depends_on = [datadog_saml_idp_metadata.this]
 }
